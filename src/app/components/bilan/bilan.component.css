@@ -1,0 +1,440 @@
+:host {
+  --sport-color:  #5b4eff;
+  --sport-bg:     #eeecff;
+  --eau-color:    #0891b2;
+  --eau-bg:       #e0f7fa;
+  --card-bg:      #ffffff;
+  --card-border:  #e2e6f0;
+  --radius:       14px;
+  --radius-sm:    8px;
+  display: block;
+}
+
+/* ══ ALERTES ══════════════════════════════════════════ */
+
+.alerte {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+}
+
+.alerte--danger {
+  background: #fff4f4;
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
+.alerte--succes {
+  background: #f0fdf4;
+  border-color: #86efac;
+  color: #15803d;
+}
+
+.alerte__icone {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.alerte__texte strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 3px;
+}
+
+.alerte__texte p {
+  margin: 0;
+  opacity: 0.85;
+}
+
+/* ══ MÉTRIQUES ════════════════════════════════════════ */
+
+.metriques {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.carte-metrique {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  transition: box-shadow 0.2s;
+}
+
+.carte-metrique:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.carte-metrique--positif { border-color: #86efac; }
+.carte-metrique--negatif { border-color: #fca5a5; }
+
+.carte-metrique__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: #8888a8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.carte-metrique__valeur {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.unite {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #8888a8;
+  margin-left: 4px;
+}
+
+.carte-metrique__sous {
+  font-size: 0.78rem;
+  color: #8888a8;
+  margin-top: 0.5rem;
+}
+
+/* ══ BARRES DE PROGRESSION ════════════════════════════ */
+
+.barre-progress {
+  height: 6px;
+  background: #e8eaf0;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.barre-progress__fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.barre-progress__fill--sport { background: var(--sport-color); }
+.barre-progress__fill--eau   { background: var(--eau-color); }
+
+/* ══ DOTS ═════════════════════════════════════════════ */
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot--sport { background: var(--sport-color); }
+.dot--eau   { background: var(--eau-color); }
+.dot--bilan { background: #f59e0b; }
+
+/* ══ TITRES ═══════════════════════════════════════════ */
+
+.section-titre {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.badge-count {
+  background: #eeecff;
+  border: 1px solid #c4bfff;
+  color: #5b4eff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ══ FORMULAIRE ═══════════════════════════════════════ */
+
+.formulaire-section {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.formulaire {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.champ--large {
+  grid-column: 1 / -1;
+}
+
+.champ {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.champ__label {
+  font-size: 0.8rem;
+  color: #5a5a7a;
+  font-weight: 500;
+}
+
+.champ__input {
+  background: #f8f9fc;
+  border: 1px solid #dde1ee;
+  border-radius: var(--radius-sm);
+  color: #1a1a2e;
+  font-size: 0.95rem;
+  padding: 0.65rem 0.9rem;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  width: 100%;
+}
+
+.champ__input:focus {
+  border-color: #5b4eff;
+  box-shadow: 0 0 0 3px rgba(91, 78, 255, 0.12);
+  background: #ffffff;
+}
+
+.champ__input::placeholder { color: #b0b0c8; }
+
+.champ__erreur {
+  font-size: 0.75rem;
+  color: #b91c1c;
+}
+
+/* ══ TYPE TOGGLE ══════════════════════════════════════ */
+
+.type-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.type-btn {
+  flex: 1;
+  padding: 0.65rem 1rem;
+  background: #f8f9fc;
+  border: 1px solid #dde1ee;
+  border-radius: var(--radius-sm);
+  color: #8888a8;
+  font-size: 0.88rem;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.type-btn:hover {
+  border-color: #b0b0c8;
+  color: #1a1a2e;
+}
+
+.type-btn--actif-sport {
+  background: var(--sport-bg);
+  border-color: var(--sport-color);
+  color: var(--sport-color);
+  font-weight: 600;
+}
+
+.type-btn--actif-eau {
+  background: var(--eau-bg);
+  border-color: var(--eau-color);
+  color: var(--eau-color);
+  font-weight: 600;
+}
+
+/* ══ BOUTON SOUMETTRE ═════════════════════════════════ */
+
+.btn-ajouter {
+  width: 100%;
+  padding: 0.85rem;
+  background: #5b4eff;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: 'Space Grotesk', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-ajouter:hover:not(:disabled) { background: #7366ff; }
+.btn-ajouter:active:not(:disabled) { transform: scale(0.99); }
+.btn-ajouter:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ══ JOURNAL ══════════════════════════════════════════ */
+
+.journal-section {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.journal-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.journal-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.journal-item--sport {
+  background: #f5f3ff;
+  border-color: #ddd9ff;
+}
+
+.journal-item--eau {
+  background: #f0fbff;
+  border-color: #bae6fd;
+}
+
+.journal-item--sport:hover { border-color: #c4bfff; }
+.journal-item--eau:hover   { border-color: #7dd3fc; }
+
+.journal-item__icone {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.journal-item__corps {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.journal-item__nom {
+  font-weight: 500;
+  font-size: 0.92rem;
+  color: #1a1a2e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.journal-item__badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 99px;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+.badge--sport {
+  background: #eeecff;
+  color: #5b4eff;
+  border: 1px solid #c4bfff;
+}
+
+.badge--eau {
+  background: #e0f7fa;
+  color: #0891b2;
+  border: 1px solid #7dd3fc;
+}
+
+.journal-item__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.journal-item__valeur {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.journal-item__heure {
+  font-size: 0.72rem;
+  color: #8888a8;
+}
+
+.btn-supprimer {
+  background: transparent;
+  border: 1px solid #dde1ee;
+  border-radius: 6px;
+  color: #b0b0c8;
+  font-size: 0.75rem;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.btn-supprimer:hover {
+  background: #fff4f4;
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
+/* ══ JOURNAL VIDE ═════════════════════════════════════ */
+
+.journal-vide {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #8888a8;
+}
+
+.journal-vide__icone {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.journal-vide p { margin: 0 0 0.25rem; font-size: 0.9rem; }
+.journal-vide__sous { font-size: 0.8rem; opacity: 0.6; }
+
+/* ══ RESPONSIVE ═══════════════════════════════════════ */
+
+@media (max-width: 600px) {
+  .formulaire { grid-template-columns: 1fr; }
+  .champ--large { grid-column: auto; }
+  .metriques { grid-template-columns: 1fr; }
+}

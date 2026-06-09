@@ -1,59 +1,58 @@
-# Exam
+# Fit Track Pro — Module "Bilan Journalier"
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.9.
+Devoir Pratique · Angular 21 · Licence 3 Informatique
 
-## Development server
+---
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Lancement rapide
 
 ```bash
-ng generate component component-name
+# 1. Installer les dépendances
+npm install
+
+# 2. Lancer le serveur de développement
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Ouvrir **http://localhost:4200** dans le navigateur.
 
-```bash
-ng generate --help
+---
+
+## Structure du projet
+
+```
+src/
+├── main.ts                                   # Bootstrap standalone
+├── index.html
+├── styles.css                                # Styles globaux
+└── app/
+    ├── app.component.ts                      # Composant racine (TS)
+    ├── app.component.html                    # Template racine (HTML)
+    ├── app.component.css                     # Styles racine (CSS)
+    │
+    ├── models/
+    │   └── activity.model.ts                 # Interface + type
+    │
+    ├── services/
+    │   └── activity.service.ts               # Signals + computed + localStorage
+    │
+    └── components/
+        └── bilan/
+            ├── bilan.component.ts            # Logique (TS)
+            ├── bilan.component.html          # Template (HTML)
+            └── bilan.component.css          # Styles (CSS)
 ```
 
-## Building
+---
 
-To build the project run:
+## Contraintes techniques respectées
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+| Contrainte | Implémentation |
+|---|---|
+| **Standalone** | `standalone: true` sur tous les composants, aucun `NgModule` |
+| **Signals** | `signal<Activity[]>()` pour l'état principal |
+| **computed()** | `totalCalories`, `totalEau`, `bilanCaloriesRestant`, `pourcentageCalories`, `pourcentageEau`, `alerteDeshydratation`, `objectifSanteAtteint` |
+| **@for + track** | `@for (activite of service.activities(); track activite.id)` |
+| **@if / @else** | Alertes santé, label valeur, bilan calorique |
+| **Persistance** | `localStorage` — sauvegarde à chaque ajout/suppression, chargement au démarrage |
+| **HTML/CSS séparés** | `templateUrl` et `styleUrl` sur chaque composant |

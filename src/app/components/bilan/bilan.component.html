@@ -1,0 +1,264 @@
+
+@if (service.objectifSanteAtteint()) {
+
+  <div class="alerte alerte--succes">
+    <span class="alerte__icone">🏆</span>
+    <div class="alerte__texte">
+      <strong>Objectif Santé Atteint !</strong>
+      <p>Félicitations — hydratation et activité physique au rendez-vous aujourd'hui.</p>
+    </div>
+  </div>
+
+} @else if (service.alerteDeshydratation()) {
+
+  <div class="alerte alerte--danger">
+    <span class="alerte__icone">⚠️</span>
+    <div class="alerte__texte">
+      <strong>Alerte déshydratation critique</strong>
+      <p>
+        Vous avez consommé {{ service.totalEau() }} ml sur les 1 500 ml requis.
+        Pensez à boire de l'eau !
+      </p>
+    </div>
+  </div>
+
+}
+
+
+
+<section class="metriques">
+
+  <!-- Carte : Calories brûlées -->
+  <div class="carte-metrique">
+    <div class="carte-metrique__label">
+      <span class="dot dot--sport"></span>
+      Calories brûlées
+    </div>
+    <div class="carte-metrique__valeur">
+      {{ service.totalCalories() }}
+      <span class="unite">kcal</span>
+    </div>
+    <div class="barre-progress">
+      <div
+        class="barre-progress__fill barre-progress__fill--sport"
+        [style.width.%]="service.pourcentageCalories()">
+      </div>
+    </div>
+    <div class="carte-metrique__sous">
+      {{ service.pourcentageCalories() }}% de l'objectif ({{ service.objectifCalories }} kcal)
+    </div>
+  </div>
+
+  <!-- Carte : Eau consommée -->
+  <div class="carte-metrique">
+    <div class="carte-metrique__label">
+      <span class="dot dot--eau"></span>
+      Eau consommée
+    </div>
+    <div class="carte-metrique__valeur">
+      {{ service.totalEau() }}
+      <span class="unite">ml</span>
+    </div>
+    <div class="barre-progress">
+      <div
+        class="barre-progress__fill barre-progress__fill--eau"
+        [style.width.%]="service.pourcentageEau()">
+      </div>
+    </div>
+    <div class="carte-metrique__sous">
+      {{ service.pourcentageEau() }}% de l'objectif (1 500 ml)
+    </div>
+  </div>
+
+  <!-- Carte : Bilan calorique restant -->
+  <div
+    class="carte-metrique"
+    [class.carte-metrique--positif]="service.bilanCaloriesRestant() > 0"
+    [class.carte-metrique--negatif]="service.bilanCaloriesRestant() <= 0">
+
+    <div class="carte-metrique__label">
+      <span class="dot dot--bilan"></span>
+      Bilan calorique
+    </div>
+    <div class="carte-metrique__valeur">
+      {{ service.bilanCaloriesRestant() }}
+      <span class="unite">kcal</span>
+    </div>
+    <div class="carte-metrique__sous">
+      @if (service.bilanCaloriesRestant() > 0) {
+        Encore {{ service.bilanCaloriesRestant() }} kcal avant l'objectif journalier
+      } @else {
+        🎯 Objectif calorique journalier atteint !
+      }
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<section class="formulaire-section">
+
+  <h2 class="section-titre">Enregistrer une activité</h2>
+
+  <form class="formulaire" (ngSubmit)="soumettre()" #form="ngForm">
+
+    <!-- Nom de l'activité -->
+    <div class="champ champ--large">
+      <label for="nom" class="champ__label">Nom de l'activité</label>
+      <input
+        id="nom"
+        type="text"
+        class="champ__input"
+        placeholder="ex : Course à pied, Verre d'eau..."
+        [(ngModel)]="nomActivite"
+        name="nom"
+        required
+        #nomCtrl="ngModel"
+      />
+      @if (nomCtrl.invalid && nomCtrl.touched) {
+        <span class="champ__erreur">Le nom de l'activité est obligatoire.</span>
+      }
+    </div>
+
+    <!-- Type : SPORT ou HYDRATATION -->
+    <div class="champ">
+      <label class="champ__label">Type d'activité</label>
+      <div class="type-toggle">
+        <button
+          type="button"
+          class="type-btn"
+          [class.type-btn--actif-sport]="typeActivite === 'SPORT'"
+          (click)="typeActivite = 'SPORT'">
+          🏃 Sport
+        </button>
+        <button
+          type="button"
+          class="type-btn"
+          [class.type-btn--actif-eau]="typeActivite === 'HYDRATATION'"
+          (click)="typeActivite = 'HYDRATATION'">
+          💧 Hydratation
+        </button>
+      </div>
+    </div>
+
+    <!-- Valeur numérique -->
+    <div class="champ">
+      <label for="valeur" class="champ__label">
+        @if (typeActivite === 'SPORT') {
+          Calories brûlées (kcal)
+        } @else {
+          Volume d'eau (ml)
+        }
+      </label>
+      <input
+        id="valeur"
+        type="number"
+        class="champ__input"
+        [placeholder]="typeActivite === 'SPORT' ? 'ex : 350' : 'ex : 500'"
+        [(ngModel)]="valeurActivite"
+        name="valeur"
+        required
+        min="1"
+        #valeurCtrl="ngModel"
+      />
+      @if (valeurCtrl.invalid && valeurCtrl.touched) {
+        <span class="champ__erreur">La valeur doit être un nombre supérieur à 0.</span>
+      }
+    </div>
+
+    <!-- Bouton soumettre -->
+    <div class="champ champ--large">
+      <button
+        type="submit"
+        class="btn-ajouter"
+        [disabled]="form.invalid">
+        + Ajouter l'activité
+      </button>
+    </div>
+
+  </form>
+
+</section>
+
+
+
+<section class="journal-section">
+
+  <h2 class="section-titre">
+    Journal du jour
+    <span class="badge-count">{{ service.activities().length }}</span>
+  </h2>
+
+  @if (service.activities().length === 0) {
+
+    <div class="journal-vide">
+      <span class="journal-vide__icone">📋</span>
+      <p>Aucune activité enregistrée pour aujourd'hui.</p>
+      <p class="journal-vide__sous">Utilisez le formulaire ci-dessus pour commencer.</p>
+    </div>
+
+  } @else {
+
+    <ul class="journal-liste">
+
+      <!-- @for avec track sur l'id unique de chaque activité -->
+      @for (activite of service.activities(); track activite.id) {
+
+        <li
+          class="journal-item"
+          [class.journal-item--sport]="activite.type === 'SPORT'"
+          [class.journal-item--eau]="activite.type === 'HYDRATATION'">
+
+          <!-- Icône selon le type -->
+          <div class="journal-item__icone">
+            @if (activite.type === 'SPORT') {
+              🏃
+            } @else {
+              💧
+            }
+          </div>
+
+          <!-- Nom + badge type -->
+          <div class="journal-item__corps">
+            <span class="journal-item__nom">{{ activite.nom }}</span>
+            <span
+              class="journal-item__badge"
+              [class.badge--sport]="activite.type === 'SPORT'"
+              [class.badge--eau]="activite.type === 'HYDRATATION'">
+              {{ activite.type }}
+            </span>
+          </div>
+
+          <!-- Valeur + heure -->
+          <div class="journal-item__meta">
+            <span class="journal-item__valeur">
+              @if (activite.type === 'SPORT') {
+                {{ activite.valeur }} kcal
+              } @else {
+                {{ activite.valeur }} ml
+              }
+            </span>
+            <span class="journal-item__heure">{{ activite.heure }}</span>
+          </div>
+
+          <!-- Bouton supprimer -->
+          <button
+            class="btn-supprimer"
+            type="button"
+            (click)="supprimerActivite(activite.id)"
+            [title]="'Supprimer ' + activite.nom"
+            [attr.aria-label]="'Supprimer ' + activite.nom">
+            ✕
+          </button>
+
+        </li>
+
+      }
+
+    </ul>
+
+  }
+
+</section>
