@@ -2,6 +2,7 @@
 
 Devoir Pratique · Angular 21 · Licence 3 Informatique
 
+Nom : Ibrahima GNINGUE
 ---
 
 ## Lancement rapide
